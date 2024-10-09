@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercices sur le Subjonctif Présent</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            text-align: center;
+        }
+        .exercise {
+            margin: 15px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .special-keyboard {
+            margin-top: 10px;
+        }
+        .special-key {
+            padding: 5px 10px;
+            margin: 2px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #e6e6e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Exercices de Subjonctif Présent en Espagnol</h1>
+        <p>Choisissez votre niveau :</p>
+        <select id="levelSelector">
+            <option value="1">Niveau 1 - Débutant</option>
+            <option value="2">Niveau 2 - Intermédiaire</option>
+            <option value="3">Niveau Expert</option>
+        </select>
+        <button onclick="startExercises()">Commencer les Exercices</button>
+        <button onclick="showExplanation()">Fiche d'Explication</button>
+        <div id="exercisesContainer" class="hidden">
+            <h2>Exercices</h2>
+            <div id="exercises"></div>
+            <div class="special-keyboard">
+                <button class="special-key" onclick="addAccent('á')">á</button>
+                <button class="special-key" onclick="addAccent('é')">é</button>
+                <button class="special-key" onclick="addAccent('í')">í</button>
+                <button class="special-key" onclick="addAccent('ó')">ó</button>
+                <button class="special-key" onclick="addAccent('ú')">ú</button>
+                <button class="special-key" onclick="addAccent('ñ')">ñ</button>
+            </div>
+            <button onclick="checkAnswers()">Vérifier les Réponses</button>
+        </div>
+        <div id="explanationContainer" class="hidden">
+            <h2>Subjonctif Présent - Explication</h2>
+            <p>Le subjonctif présent en espagnol est utilisé pour exprimer des souhaits, des doutes, des incertitudes, des émotions, ou des hypothèses.</p>
+            <p>Voici quelques exemples : </p>
+            <ul>
+                <li>Espero que tú <strong>estés</strong> bien. (J'espère que tu vas bien.)</li>
+                <li>Es importante que ellos <strong>sepan</strong> la verdad. (Il est important qu'ils sachent la vérité.)</li>
+                <li>Quiero que nosotros <strong>comamos</strong> ensemble. (Je veux que nous mangions ensemble.)</li>
+            </ul>
+            <p>Pour conjuguer au subjonctif, on prend la forme de la première personne du singulier au présent de l'indicatif, on enlève le -o, puis on ajoute les terminaisons spécifiques au subjonctif.</p>
+            <p>Voici les terminaisons du subjonctif présent :</p>
+            <h3>Verbes en -ar :</h3>
+            <ul>
+                <li>yo: -e</li>
+                <li>tú: -es</li>
+                <li>él/ella/usted: -e</li>
+                <li>nosotros/nosotras: -emos</li>
+                <li>vosotros/vosotras: -éis</li>
+                <li>ellos/ellas/ustedes: -en</li>
+            </ul>
+            <h3>Verbes en -er et -ir :</h3>
+            <ul>
+                <li>yo: -a</li>
+                <li>tú: -as</li>
+                <li>él/ella/usted: -a</li>
+                <li>nosotros/nosotras: -amos</li>
+                <li>vosotros/vosotras: -áis</li>
+                <li>ellos/ellas/ustedes: -an</li>
+            </ul>
+            <button onclick="hideExplanation()">Fermer la Fiche</button>
+        </div>
+    </div>
+
+    <script>
+        const exercises = {
+            "1": [
+                "Espero que tú ____ (estar) bien.",
+                "Es importante que ellos ____ (saber) la verdad.",
+                "Quiero que nosotros ____ (comer) juntos.",
+                "Ojalá que el clima ____ (mejorar) pronto.",
+                "Mi madre desea que yo ____ (ser) feliz."
+            ],
+            "2": [
+                "Es probable que nosotros ____ (llegar) tarde.",
+                "No creo que ella ____ (tener) razón.",
+                "Es necesario que ustedes ____ (hacer) ejercicio.",
+                "Es posible que mi hermano ____ (venir) mañana.",
+                "Dudo que ellos ____ (poder) terminar a tiempo."
+            ],
+            "3": [
+                "Me alegra que tú ____ (haber) estudiado.",
+                "Aunque ella ____ (decir) la verdad, no la creen.",
+                "Temo que el problema ____ (ser) difícil de resolver.",
+                "No es cierto que ellos ____ (conocer) a esa persona.",
+                "Es probable que ____ (haber) más cambios."
+            ]
+        };
+
+        function startExercises() {
+            const level = document.getElementById("levelSelector").value;
+            const exercisesContainer = document.getElementById("exercises");
+            exercisesContainer.innerHTML = "";
+            const selectedExercises = exercises[level];
+
+            selectedExercises.forEach((exercise, index) => {
+                exercisesContainer.innerHTML += `
+                    <div class="exercise">
+                        <label>${index + 1}. ${exercise}</label>
+                        <input type="text" id="answer${index}">
+                    </div>
+                `;
+            });
+            document.getElementById("exercisesContainer").classList.remove("hidden");
+            document.getElementById("explanationContainer").classList.add("hidden");
+        }
+
+        function checkAnswers() {
+            const level = document.getElementById("levelSelector").value;
+            const selectedExercises = exercises[level];
+            const answers = {
+                "1": ["estés", "sepan", "comamos", "mejore", "sea"],
+                "2": ["lleguemos", "tenga", "hagan", "venga", "puedan"],
+                "3": ["hayas", "diga", "sea", "conozcan", "haya"]
+            };
+
+            selectedExercises.forEach((exercise, index) => {
+                const userAnswer = document.getElementById(`answer${index}`).value.trim();
+                const correctAnswer = answers[level][index];
+
+                if (userAnswer.toLowerCase() !== correctAnswer) {
+                    alert(`Erreur à l'exercice ${index + 1} : Vous avez écrit "${userAnswer}", mais la réponse correcte est "${correctAnswer}".`);
+                }
+            });
+        }
+
+        function addAccent(accent) {
+            const activeElement = document.activeElement;
+            if (activeElement && activeElement.tagName === "INPUT") {
+                activeElement.value += accent;
+            }
+        }
+
+        function showExplanation() {
+            document.getElementById("explanationContainer").classList.remove("hidden");
+            document.getElementById("exercisesContainer").classList.add("hidden");
+        }
+
+        function hideExplanation() {
+            document.getElementById("explanationContainer").classList.add("hidden");
+        }
+    </script>
+</body>
+</html>
